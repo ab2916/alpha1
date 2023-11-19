@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,6 +28,8 @@ import com.google.firebase.storage.UploadTask;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
+
 
 public class StorageActivity extends AppCompatActivity {
     ImageView imageView;
@@ -50,8 +53,10 @@ public class StorageActivity extends AppCompatActivity {
     }
 
     private void uploadImage() {
+        Random random = new Random();
+        int randomNumber = random.nextInt(1000) + 1;
 
-        String fileName = "erer";
+        String fileName = "file" + randomNumber;
 
         storageReference = FirebaseStorage.getInstance().getReference("images/"+fileName);
         storageReference.putFile(imageUri)
@@ -77,7 +82,6 @@ public class StorageActivity extends AppCompatActivity {
 
         if (requestCode == 100 && resultCode == RESULT_OK) {
             imageUri = data.getData();
-            imageView.setImageURI(imageUri);
             uploadImage();
         }
     }
@@ -86,5 +90,16 @@ public class StorageActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent,100);
+    }
+
+    public void loadImage(View view) {
+        storageReference.getBytes(1024 * 1024).addOnSuccessListener(bytes -> {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0 , bytes.length);
+            imageView.setImageBitmap(bitmap);
+
+        }).addOnFailureListener(e -> {
+
+            Toast.makeText(this, "Image download failed", Toast.LENGTH_SHORT).show();
+        });
     }
 }
