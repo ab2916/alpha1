@@ -35,7 +35,6 @@ public class StorageActivity extends AppCompatActivity {
     ImageView imageView;
     Uri imageUri;
     StorageReference storageReference;
-    ProgressDialog progressDialog;
     public static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 123;
 
 
