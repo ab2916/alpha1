@@ -101,4 +101,8 @@ public class StorageActivity extends AppCompatActivity {
             Toast.makeText(this, "Image download failed", Toast.LENGTH_SHORT).show();
         });
     }
+
+    public void next(View view) {
+        startActivity(new Intent(this, RTDBActivity.class));
+    }
 }
