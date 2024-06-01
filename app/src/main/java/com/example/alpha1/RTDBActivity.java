@@ -39,7 +39,7 @@ public class RTDBActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
-        startActivity(new Intent(this, LoginActivity.class));
+        startActivity(new Intent(this, ScannerActivity.class));
     }
 
     public void save(View view) {
